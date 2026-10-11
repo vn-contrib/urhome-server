@@ -3,6 +3,19 @@ type Query {
   currentUser: User!
 }
 
+type Mutation {
+  createProperty(input: PropertyInput!): Property!
+}
+
 type User {
   id: Int!
+}
+
+type Property {
+  id: Int!
+  name: String!
+}
+
+input PropertyInput {
+  name: String
 }
