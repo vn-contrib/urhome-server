@@ -5,5 +5,6 @@ import "github.com/uptrace/bun"
 type User struct {
 	bun.BaseModel `bun:"alias:u"`
 
-	ID int32 `bun:",pk,autoincrement"`
+	ID          int32 `bun:",pk,autoincrement"`
+	FirebaseUID string
 }

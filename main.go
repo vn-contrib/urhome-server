@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/signal"
 
+	firebase "firebase.google.com/go"
 	"github.com/dundunlabs/grapher"
 	"github.com/graph-gophers/graphql-go"
 	_ "github.com/joho/godotenv/autoload"
@@ -16,8 +17,11 @@ import (
 	"github.com/uptrace/bun/dialect/pgdialect"
 	"github.com/uptrace/bun/driver/pgdriver"
 	"github.com/uptrace/bun/extra/bundebug"
+	"github.com/vn-contrib/urhome-server/contexts"
+	"github.com/vn-contrib/urhome-server/handler"
 	"github.com/vn-contrib/urhome-server/pkg/bar"
 	"github.com/vn-contrib/urhome-server/resolver"
+	"google.golang.org/api/option"
 )
 
 //go:embed schema.gql
@@ -30,16 +34,29 @@ func main() {
 	db := bun.NewDB(sqldb, pgdialect.New()).WithQueryHook(bundebug.NewQueryHook(bundebug.FromEnv()))
 	defer db.Close()
 
+	fbApp, err := firebase.NewApp(ctx, nil, option.WithAuthCredentialsFile(option.ServiceAccount, os.Getenv("FIREBASE_CREDENTIALS_FILE")))
+	if err != nil {
+		panic(err)
+	}
+	fbAuth, err := fbApp.Auth(ctx)
+	if err != nil {
+		panic(err)
+	}
+
 	hdr := http.NewServeMux()
-	hdr.Handle("/graphql", &grapher.Handler{
-		Schema: graphql.MustParseSchema(gql, resolver.New()),
+	hdr.Handle("/graphql", &handler.AuthHandler{
+		Next: &grapher.Handler{
+			Schema: graphql.MustParseSchema(gql, resolver.New(), graphql.UseFieldResolvers()),
+		},
 	})
 
 	srv := http.Server{
 		Addr:    ":8080",
 		Handler: hdr,
 		BaseContext: func(l net.Listener) context.Context {
-			return bar.ContextWithDB(ctx, db)
+			httpCtx := bar.ContextWithDB(ctx, db)
+			httpCtx = contexts.WithFirebaseAuth(httpCtx, fbAuth)
+			return httpCtx
 		},
 	}
 	go srv.ListenAndServe()
