@@ -14,11 +14,12 @@ type PropertyArgs struct {
 }
 
 func (args PropertyArgs) Member(ctx context.Context) *model.PropertyMember {
-	pm := &model.PropertyMember{
-		UserID:     contexts.UseAuth(ctx).User().ID,
-		PropertyID: int32(args.PropertyID),
+	f := bar.Field{
+		"user_id":     contexts.UseAuth(ctx).User().ID,
+		"property_id": args.PropertyID,
 	}
-	if err := bar.FindBy(ctx, pm); err != nil {
+	pm, err := model.ModelPropertyMember.Where(f).First(ctx)
+	if err != nil {
 		panic(err)
 	}
 	return pm

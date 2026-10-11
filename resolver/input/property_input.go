@@ -2,17 +2,17 @@ package input
 
 import (
 	"github.com/graph-gophers/graphql-go"
-	"github.com/vn-contrib/urhome-server/model"
+	"github.com/vn-contrib/urhome-server/pkg/bar"
 )
 
 type PropertyInput struct {
 	Name graphql.NullString
 }
 
-func (i PropertyInput) Map(p *model.Property) (cols []string, err error) {
+func (i PropertyInput) Field() (bar.Field, error) {
+	f := bar.Field{}
 	if i.Name.Set {
-		p.Name = *i.Name.Value
-		cols = append(cols, "name")
+		f["name"] = *i.Name.Value
 	}
-	return
+	return f, nil
 }

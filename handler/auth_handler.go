@@ -24,11 +24,10 @@ func (h *AuthHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 
-		u := &model.User{FirebaseUID: token.UID}
-		if err := bar.FindOrCreateBy(ctx, u, "firebase_uid"); err != nil {
+		u, err := model.ModelUser.Where(bar.Field{"firebase_uid": token.UID}).FirstOrCreate(ctx)
+		if err != nil {
 			panic(err)
 		}
-
 		return u
 	})
 
