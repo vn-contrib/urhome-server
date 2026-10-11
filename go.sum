@@ -1,5 +1,9 @@
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/dundunlabs/grapher v0.3.0 h1:j+EgndleChQ+/RVLfObaJUE/aJJL+VJoL1ohjs2v8Ik=
+github.com/dundunlabs/grapher v0.3.0/go.mod h1:Y8M2s3OUfEubwgnN2vaXX1g+tsQtE1wNw6+BhVMWogA=
+github.com/graph-gophers/graphql-go v1.10.3 h1:H6bqOfbuyolAQsbLapHnkIFdJ59vrXuAvDmc4uFvjbY=
+github.com/graph-gophers/graphql-go v1.10.3/go.mod h1:AsADheC4CCFwd8n1/QbkduTlHgYYMsRgtPihYVAlEsk=
 github.com/jinzhu/inflection v1.0.0 h1:K317FqzuhWc8YvSVlFMCCUb36O/S9MCKRDI7QkRKD/E=
 github.com/jinzhu/inflection v1.0.0/go.mod h1:h+uFLlag+Qp1Va5pdKtLDYj+kHp5pxUVkryuEj+Srlc=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=

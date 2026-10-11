@@ -2,7 +2,11 @@ module github.com/vn-contrib/urhome-server
 
 go 1.26.5
 
-require github.com/uptrace/bun v1.3.0
+require (
+	github.com/dundunlabs/grapher v0.3.0
+	github.com/graph-gophers/graphql-go v1.10.3
+	github.com/uptrace/bun v1.3.0
+)
 
 require (
 	github.com/jinzhu/inflection v1.0.0 // indirect
