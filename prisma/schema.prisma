@@ -2,3 +2,40 @@ datasource db {
   provider = "postgresql"
   url      = env("PRISMA_DATABASE_URL")
 }
+
+model User {
+  id Int @id @default(autoincrement())
+
+  properties PropertyMember[]
+
+  @@map("users")
+}
+
+model Property {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(255)
+
+  members PropertyMember[]
+
+  @@map("properties")
+}
+
+model PropertyMember {
+  propertyId Int                @map("property_id")
+  userId     Int                @map("user_id")
+  role       PropertyMemberRole @default(TENANT)
+
+  property Property @relation(fields: [propertyId], references: [id])
+  user     User     @relation(fields: [userId], references: [id])
+
+  @@id([propertyId, userId])
+  @@map("property_members")
+}
+
+enum PropertyMemberRole {
+  OWNER   @map("owner")
+  MANAGER @map("manager")
+  TENANT  @map("tenant")
+
+  @@map("property_member_role")
+}
