@@ -1,6 +1,7 @@
 type Query {
   ping: String!
   currentUser: User!
+  currentPropertyMember(propertyId: ID!): PropertyMember!
 }
 
 type Mutation {
@@ -14,6 +15,18 @@ type User {
 type Property {
   id: Int!
   name: String!
+}
+
+type PropertyMember {
+  propertyId: Int!
+  userId: Int!
+  role: PropertyMemberRole!
+}
+
+enum PropertyMemberRole {
+  owner
+  manager
+  tenant
 }
 
 input PropertyInput {
