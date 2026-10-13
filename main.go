@@ -13,6 +13,7 @@ import (
 	"github.com/dundunlabs/grapher"
 	"github.com/graph-gophers/graphql-go"
 	_ "github.com/joho/godotenv/autoload"
+	"github.com/rs/cors"
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/dialect/pgdialect"
 	"github.com/uptrace/bun/driver/pgdriver"
@@ -52,7 +53,7 @@ func main() {
 
 	srv := http.Server{
 		Addr:    ":8080",
-		Handler: hdr,
+		Handler: cors.AllowAll().Handler(hdr),
 		BaseContext: func(l net.Listener) context.Context {
 			httpCtx := bar.ContextWithDB(ctx, db)
 			httpCtx = contexts.WithFirebaseAuth(httpCtx, fbAuth)

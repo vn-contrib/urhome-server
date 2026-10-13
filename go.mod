@@ -7,6 +7,7 @@ require (
 	github.com/dundunlabs/grapher v0.3.0
 	github.com/graph-gophers/graphql-go v1.10.3
 	github.com/joho/godotenv v1.5.1
+	github.com/rs/cors v1.11.1
 	github.com/uptrace/bun v1.3.0
 	github.com/uptrace/bun/dialect/pgdialect v1.3.0
 	github.com/uptrace/bun/driver/pgdriver v1.3.0
