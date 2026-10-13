@@ -21,6 +21,20 @@ func (m Model[T]) Where(fields ...Field) Model[T] {
 	}
 }
 
+func (m Model[T]) Take(ctx context.Context, nums ...int64) ([]*T, error) {
+	var limit, offset int64
+	if len(nums) > 0 {
+		limit = nums[0]
+	}
+	if len(nums) > 1 {
+		offset = nums[1]
+	}
+
+	models, fns := []*T{}, m.selectQueries()
+	err := DBFromContext(ctx).NewSelect().Model(&models).Apply(fns...).Limit(limit).Offset(offset).Scan(ctx)
+	return models, err
+}
+
 func (m Model[T]) Create(ctx context.Context, fields ...Field) (*T, error) {
 	model, fns := new(T), m.Where(fields...).insertQueries()
 	_, err := DBFromContext(ctx).NewInsert().Model(model).Apply(fns...).Exec(ctx)

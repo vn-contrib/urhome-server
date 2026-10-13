@@ -10,6 +10,7 @@ type Mutation {
 
 type User {
   id: Int!
+  properties: [PropertyMember!]!
 }
 
 type Property {
@@ -21,6 +22,7 @@ type PropertyMember {
   propertyId: Int!
   userId: Int!
   role: PropertyMemberRole!
+  property: Property!
 }
 
 enum PropertyMemberRole {

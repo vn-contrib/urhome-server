@@ -22,3 +22,7 @@ type PropertyMember struct {
 	UserID     int32 `bun:",pk"`
 	Role       PropertyMemberRole
 }
+
+func (m PropertyMember) Property() bar.Model[Property] {
+	return ModelProperty.Where(bar.Field{"id": m.PropertyID})
+}
