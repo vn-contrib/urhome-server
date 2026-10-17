@@ -1,5 +1,11 @@
 package resolver
 
+import (
+	"time"
+
+	"github.com/graph-gophers/graphql-go"
+)
+
 func New() *schemaResolver {
 	return &schemaResolver{
 		query:    &queryResolver{},
@@ -18,4 +24,15 @@ func (r *schemaResolver) Query() *queryResolver {
 
 func (r *schemaResolver) Mutation() *mutationResolver {
 	return r.mutation
+}
+
+func resolveTime(t time.Time) graphql.Time {
+	return graphql.Time{Time: t}
+}
+
+func resolveNullTime(t *time.Time) *graphql.Time {
+	if t == nil {
+		return nil
+	}
+	return &graphql.Time{Time: *t}
 }

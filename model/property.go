@@ -13,3 +13,7 @@ type Property struct {
 	ID   int32 `bun:",pk,autoincrement"`
 	Name string
 }
+
+func (p Property) Leases() bar.Model[Lease] {
+	return ModelLease.Where(bar.Field{"property_id": p.ID})
+}

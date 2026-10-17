@@ -17,6 +17,7 @@ model Property {
   name String @db.VarChar(255)
 
   members PropertyMember[]
+  leases  Lease[]
 
   @@map("properties")
 }
@@ -39,4 +40,30 @@ enum PropertyMemberRole {
   TENANT  @map("tenant")
 
   @@map("property_member_role")
+}
+
+model Tenant {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(255)
+
+  @@map("tenants")
+}
+
+model Lease {
+  id         Int       @id @default(autoincrement())
+  propertyId Int       @map("property_id")
+  startTime  DateTime  @map("start_time") @db.Timestamptz()
+  endTime    DateTime? @map("end_time") @db.Timestamptz()
+
+  property Property @relation(fields: [propertyId], references: [id])
+
+  @@map("leases")
+}
+
+model LeaseTenant {
+  leaseId  Int @map("lease_id")
+  tenantId Int @map("tenant_id")
+
+  @@id([leaseId, tenantId])
+  @@map("lease_tenants")
 }

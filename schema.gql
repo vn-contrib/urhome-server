@@ -1,3 +1,5 @@
+scalar Time 
+
 type Query {
   ping: String!
   currentUser: User!
@@ -16,6 +18,7 @@ type User {
 type Property {
   id: Int!
   name: String!
+  leases: [Lease!]!
 }
 
 type PropertyMember {
@@ -23,6 +26,18 @@ type PropertyMember {
   userId: Int!
   role: PropertyMemberRole!
   property: Property!
+}
+
+type Lease {
+  id: Int!
+  startTime: Time!
+  endTime: Time
+  tenants: [Tenant!]!
+}
+
+type Tenant {
+  id: Int!
+  name: String!
 }
 
 enum PropertyMemberRole {
