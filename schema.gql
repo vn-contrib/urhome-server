@@ -36,6 +36,12 @@ type Lease {
 }
 
 type Tenant {
+  leaseId: Int!
+  profileId: Int!
+  profile: Profile!
+}
+
+type Profile {
   id: Int!
   name: String!
 }

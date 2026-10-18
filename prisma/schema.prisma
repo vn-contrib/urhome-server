@@ -8,6 +8,7 @@ model User {
   firebaseUid String @unique @map("firebase_uid") @db.VarChar(128)
 
   properties PropertyMember[]
+  profile    Profile?
 
   @@map("users")
 }
@@ -42,11 +43,14 @@ enum PropertyMemberRole {
   @@map("property_member_role")
 }
 
-model Tenant {
-  id   Int    @id @default(autoincrement())
-  name String @db.VarChar(255)
+model Profile {
+  id     Int    @id @default(autoincrement())
+  userId Int?   @unique @map("user_id")
+  name   String @db.VarChar(255)
 
-  @@map("tenants")
+  user User? @relation(fields: [userId], references: [id])
+
+  @@map("profiles")
 }
 
 model Lease {
@@ -60,10 +64,10 @@ model Lease {
   @@map("leases")
 }
 
-model LeaseTenant {
-  leaseId  Int @map("lease_id")
-  tenantId Int @map("tenant_id")
+model Tenant {
+  leaseId   Int @map("lease_id")
+  profileId Int @map("profile_id")
 
-  @@id([leaseId, tenantId])
-  @@map("lease_tenants")
+  @@id([leaseId, profileId])
+  @@map("tenants")
 }

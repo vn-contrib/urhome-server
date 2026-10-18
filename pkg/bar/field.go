@@ -6,7 +6,11 @@ type Field map[string]any
 
 func (f Field) SelectQuery(sq *bun.SelectQuery) *bun.SelectQuery {
 	for k, v := range f {
-		sq = sq.Where("? = ?", bun.Ident(k), v)
+		switch v := v.(type) {
+		case Field:
+		default:
+			sq = sq.Where("? = ?", bun.Ident(k), v)
+		}
 	}
 	return sq
 }

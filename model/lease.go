@@ -17,3 +17,7 @@ type Lease struct {
 	StartTime  time.Time
 	EndTime    *time.Time
 }
+
+func (l Lease) Tenants() bar.Model[Tenant] {
+	return ModelTenant.Where(bar.Field{"lease_id": l.ID})
+}

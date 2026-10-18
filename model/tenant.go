@@ -10,6 +10,10 @@ var ModelTenant = bar.ModelFor[Tenant]()
 type Tenant struct {
 	bun.BaseModel `bun:"alias:t"`
 
-	ID   int32 `bun:",pk,autoincrement"`
-	Name string
+	LeaseID   int32 `bun:",pk"`
+	ProfileID int32 `bun:",pk"`
+}
+
+func (t Tenant) Profile() bar.Model[Profile] {
+	return ModelProfile.Where(bar.Field{"id": t.ProfileID})
 }
